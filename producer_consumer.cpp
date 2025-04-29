@@ -23,8 +23,8 @@ std::atomic<int> items_produced_count(0);
 std::atomic<int> items_consumed_count(0);
 std::atomic<int> active_producers(0);
 
-void producer_task();
-void consumer_task();
+void producer_task(int id);
+void consumer_task(int id);
 
 int main(int argc, char* argv[]) {
 	if (argc != 3) {
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-void producer_task() {
+void producer_task(int id) {
 	active_producers++;
 	for (int i = 0; i < ITEMS_PER_PRODUCER; ++i) {
 		if (PRODUCER_SLEEP_MS > 0) {
@@ -123,7 +123,7 @@ void producer_task() {
 	}
 }
 
-void consumer_task() {
+void consumer_task(int id) {
 	while (true) {
 		int item;
 		{
